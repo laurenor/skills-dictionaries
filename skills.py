@@ -30,17 +30,17 @@ def count_unique(input_string):
     """
 
     list_of_words = input_string.split()
-    dictionary = {}
+    word_with_count = {}
 
 
     for word in list_of_words:
-        dictionary.setdefault(word,0)
+        word_with_count.setdefault(word,0)
 
     for word in list_of_words:
-        if word in dictionary:
-            dictionary[word] += 1
+        if word in word_with_count:
+            word_with_count[word] += 1
 
-    return dictionary
+    return word_with_count
 
 
 def find_common_items(list1, list2):
@@ -70,7 +70,17 @@ def find_common_items(list1, list2):
 
     """
 
-    return []
+
+    combined_lists = sorted(list1 + list2)
+
+    duplicates = []
+
+    for i in range(len(combined_lists)-1):
+        if combined_lists[i] == combined_lists[i+1]:
+            duplicates.append(combined_lists[i])
+
+
+    return duplicates
 
 
 def find_unique_common_items(list1, list2):
@@ -130,7 +140,26 @@ def get_sum_zero_pairs(input_list):
 
     """
 
-    return []
+    pairs = []
+    input_list = sorted(input_list)
+    for num in input_list:
+        for i in range(len(input_list)-1):
+            if num == 0 and [0,0] not in pairs:
+                pairs.append([0,0])
+            elif num + input_list[i] == 0:
+                if [num,input_list[i]] not in pairs:
+                    pairs.append(sorted([num,input_list[i]]))
+            else:
+                pass
+
+    unique_items = []
+    for item in pairs:
+        if item not in unique_items:
+            unique_items.append(item)
+
+
+
+    return unique_items
 
 
 def remove_duplicates(words):
@@ -150,8 +179,11 @@ def remove_duplicates(words):
         ['Rose', 'a', 'is', 'rose']
 
     """
-
-    return []
+    unique_words = []
+    for word in words:
+        if word not in unique_words:
+            unique_words.append(word)
+    return sorted(unique_words)
 
 
 def encode(phrase):
@@ -179,6 +211,7 @@ def encode(phrase):
     mutated_string = "".join(chars_in_string)  
     return mutated_string
 
+
 #still need to work on this
 def sort_by_word_length(words):
     """Given list of words, return list of ascending [(len, [words])].
@@ -197,8 +230,25 @@ def sort_by_word_length(words):
     for word in words:
         word_counts.append(len(word))
     set_word_counts = set(word_counts)
-    set_word_counts = list(set_word_counts)
-    return set_word_counts
+    set_word_counts = sorted(list(set_word_counts))
+
+    dictionary = {}
+    for num in set_word_counts:
+        dictionary[num] = []
+
+    for word in words:
+        for item in dictionary:
+            if len(word) == item:
+                if dictionary[item] == []:
+                    dictionary[item] = [word]
+                else:
+                    dictionary[item] += [word]
+
+    tuple_list = []
+    for key in dictionary:
+        tuple_list.append(tuple([key, dictionary[key]]))
+
+    return tuple_list
 
 
 def get_pirate_talk(phrase):
