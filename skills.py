@@ -212,7 +212,6 @@ def encode(phrase):
     return mutated_string
 
 
-#still need to work on this
 def sort_by_word_length(words):
     """Given list of words, return list of ascending [(len, [words])].
 
